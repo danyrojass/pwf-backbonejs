@@ -8,12 +8,6 @@ var ListaPersonaView = Backbone.View.extend({
      * @field
      */
     templateURL: "templates/lista-persona-tmpl.html",
-    /**
-     *
-     */
-    events: {
-        "click #nuevo": "nuevo",
-    },
 
     /**
      * @Constructor
