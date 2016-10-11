@@ -98,8 +98,83 @@ var ListaPersonaView = Backbone.View.extend({
             collection: coleccion.toJSON()
         }));
         return this;
-    }
+    },
+    
+    editarContactos: function(e){
+        e.preventDefault();
+        var id = $(e.currentTarget).data("id");
+        this.selectedPersona = this.collection.get(id);
+
+        var a = document.getElementById(id+"nombre");
+        a.type= "text";
+        var aa = document.getElementById(id+"nombre1");
+        aa.style='display:none;';
+
+        var b = document.getElementById(id+"apellido");
+        b.type= "text";
+        var bb = document.getElementById(id+"apellido1");
+        bb.style='display:none;';
 
 
+        var c = document.getElementById(id+"alias");
+        c.type= "text";
+        var cc = document.getElementById(id+"alias1");
+        cc.style='display:none;';
+
+        var d = document.getElementById(id+"telefono");
+        d.type= "text";
+        var dd = document.getElementById(id+"telefono1");
+        dd.style='display:none;';
+
+        var e = document.getElementById(id+"direccion");
+        e.type= "text";
+        var ee = document.getElementById(id+"direccion1");
+        ee.style='display:none;';
+
+        var f = document.getElementById(id+"email");
+        f.type= "text";
+        var ff = document.getElementById(id+"email1");
+        ff.style='display:none;';
+
+        var g = document.getElementById("guardarContacto");
+        g.style.display = "block";
+
+      },
+
+      guardarContacto: function(e){
+          e.preventDefault();
+          var id = $(e.currentTarget).data("id");
+          this.selectedPersona = this.collection.get(id);
+
+          nombre = document.getElementById(id+"nombre");
+          apellido = document.getElementById(id+"apellido");
+          alias = document.getElementById(id+"alias");
+          telefono = document.getElementById(id+"telefono");
+          direccion = document.getElementById(id+"direccion");
+          email = document.getElementById(id+"email");
+
+          var contacto = new PersonaModel({ id });
+          contacto.fetch({
+	          success: function (contactoResponse) {
+		          contactoResponse.set("nombre", nombre.value);
+		          contactoResponse.set("apellido", apellido.value);
+		          contactoResponse.set("alias", alias.value);
+		          contactoResponse.set("telefono", telefono.value);
+		          contactoResponse.set("direccion", direccion.value);
+		          contactoResponse.set("email", email.value);
+		
+		          contactoResponse.save({}, {
+		              success: function (model, respose, options) {
+		                  window.alert("¡Contacto modificado!");
+		                  window.location.reload();
+		              },
+		              error: function (model, xhr, options) {
+		                  window.alert("Imposible modificar el contacto.");
+		                  window.location.reload();
+		              }
+				  });
+			  }
+		  });
+      }
 
 });
