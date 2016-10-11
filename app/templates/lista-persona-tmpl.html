@@ -1,28 +1,106 @@
-<!-- templates/lista-persona-tmpl -->
+<label style="font-size: 25px">Buscar:</label>
+<div id="caja1">
+    <input type="text" placeholder="Buscar" name="filtrado" id="filtrado"  class="form-control">
+
+    <a class="btn btn-default" id="filtrar" role="button">Buscar</a>
+
+</div>
+<br>
+
+<button id="atras" class="btn btn-default">Atrás</button>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<button id="adelante" class="btn btn-default">Adelante</button>
+
+<br>
+
 <div class="panel panel-default">
     <div class="panel-heading">Listado de personas</div>
     <div class="panel-body">
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Username</th>
-                </tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Alias</th>
+                    <th>Telefono</th>
+                    <th>Direccion</th>
+                    <th>Email</th>
+                    <th>Creación</th>
+                    <th>Modificación</th>
+                    <th>Eliminar</th>
+                    <th>Editar</th>
+                  </tr>
             </thead>
             <tbody>
                 <% _.forEach(collection, function(item){ %>
-                    <tr>
+                    <tr  data-id="<%=item.id%>">
+                        <td >
+                          <%=item.id %></td>
+                        <td >
+                            <div type="text" id="<%=item.id%>nombre1" style.display = 'inline' > <%=item.nombre %> </div>
+                            <input name="nombre1" id="<%=item.id%>nombre" class="form-control" type="hidden"  value="<%=item.nombre %>">
+                        </td>
+
                         <td>
-                            <%=item.nombre %>
+                            <div type="text" id="<%=item.id%>apellido1" style.display = 'inline' > <%=item.apellido %> </div>
+                            <input name="apellido1" id="<%=item.id%>apellido" class="form-control" type="hidden" value="<%=item.apellido %>">
+                        </td>
+
+                        <td>
+                            <div type="text" id="<%=item.id%>alias1" style.display = 'inline' > <%=item.alias %> </div>
+                            <input name="alias1" id="<%=item.id%>alias" class="form-control" type="hidden" value="<%=item.alias %>">
+                        </td>
+
+                        <td>
+                          <div type="text" id="<%=item.id%>telefono1" style.display = 'inline' > <%=item.telefono %> </div>
+                          <input name="telefono1" id="<%=item.id%>telefono" class="form-control" type="hidden" value="<%=item.telefono %>">
+                        </td>
+
+                        <td>
+                            <div type="text" id="<%=item.id%>direccion1" style.display = 'inline' ><%=item.direccion %> </div>
+                            <input name="direccion1" id="<%=item.id%>direccion" class="form-control" type="hidden" value="<%=item.direccion %>">
+                        </td>
+
+                        <td>
+                          <div type="text" id="<%=item.id%>email1" style.display = 'inline' > <%=item.email %> </div>
+                          <input name="email1" id="<%=item.id%>email" class="form-control" type="hidden" value="<%=item.email %>">
+                        </td>
+
+                        <td>
+                          <%=item.fechacreacion %>
+                        </td>
+
+                        <td>
+                          <%=item.fechamodificacion %>
+                        </td>
+
+                        <td>
+                            <a class="btn btn-default" id="eliminarContacto" role="button" data-id="<%=item.id%>">Eliminar</a>
                         </td>
                         <td>
-                            <%=item.apellido %>
+                            <a class="btn btn-default" id="editarContacto" role="button" data-id="<%=item.id%>">Editar</a>
+                            <a class="btn btn-default" id="guardarContacto" role="button" data-id="<%=item.id%>">Guardar</a>
                         </td>
-                        <td>@
-                            <%=item.username %>
-                        </td>
+
+
                     </tr>
+
                     <% }); %>
             </tbody>
         </table>

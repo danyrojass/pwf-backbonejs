@@ -14,6 +14,8 @@ var ListaPersonaView = Backbone.View.extend({
 
     events: {
         "click #filtrar": "filtrar2",
+        "click #atras": "atras",
+        "click #adelante": "adelante",
         "click #eliminarContacto": "eliminarContacto",
         "click #editarContacto": "editarContacto",
         "click #guardarContacto": "guardarContacto"
@@ -43,62 +45,73 @@ var ListaPersonaView = Backbone.View.extend({
     render: function () {
         var contador = 0;
         var tmpl = _.template(this.template);
-        //se procesa el collection a un json
         var coll = this.collection.toJSON();
-        //se añade el html resultante al contenedor del view.
 
+        coll = this.convertFecha(coll);
+        
         this.$el.html(tmpl({
             collection: coll
         }));
         return this;
     },
 
+    convertFecha: function(coleccion){
+        var contador = 0;
+        for(item in coleccion){
+          var fechacreacion = coleccion[contador].fechacreacion;
+          var anho = fechacreacion.substring(0, 4);
+          var mes = fechacreacion.substring(5, 7);
+          var dia = fechacreacion.substring(8,10);
+          var hora = fechacreacion.substring(11,19);
+          coleccion[contador].fechacreacion = dia + '-' + mes + '-' + anho + ' ' + hora;
+
+          var fechamodificacion = coleccion[contador].fechamodificacion;
+          if(fechamodificacion != null){
+            var anho1 = fechamodificacion.substring(0, 4);
+            var mes1 = fechamodificacion.substring(5, 7);
+            var dia1 = fechamodificacion.substring(8,10);
+            var hora1 = fechamodificacion.substring(11,19);
+            coleccion[contador].fechamodificacion = dia1 + '-' + mes1 + '-' + anho1 + ' ' + hora1;
+          }
+
+          contador++;
+        }
+        return coleccion;
+      },
+    
     filtrar2: function () {
         var data = {};
-        //por cada input del view
-        this.$el.find("[name]").each(function () {
-            data[this.name] = this.value;
-        });
+        var thiz = this;
 
-        //Aquí se realizan los principales calculos de busqueda
-        var myModel;
-        var coleccion = new PersonaCollection();
-        for(var i=0; i<this.collection.length; i++) {
-            myModel = this.collection.models[i];
-            if (data["sel1"]=="Nombre"){
-                if (myModel.attributes.nombre.toLowerCase().search(data["filtrado"].toLowerCase())!=-1){
-                    coleccion.add(myModel);
-                }
-            }else if(data["sel1"]=="Apellido"){
-                if (myModel.attributes.apellido.toLowerCase().search(data["filtrado"].toLowerCase())!=-1){
-                    coleccion.add(myModel);
-                }
-            }else if(data["sel1"]=="Alias") {
-                if (myModel.attributes.alias.toLowerCase().search(data["filtrado"].toLowerCase())!=-1){
-                    coleccion.add(myModel);
-                }
-            }else if(data["sel1"]=="ID") {
-                if (myModel.attributes.id.toString().search(data["filtrado"])!=-1){
-                    coleccion.add(myModel);
-                }
-            }else if(data["sel1"]=="Dirección") {
-                if (myModel.attributes.direccion.toLowerCase().search(data["filtrado"].toLowerCase())!=-1){
-                    coleccion.add(myModel);
-                }
-            }else if(data["sel1"]=="Email") {
-                if (myModel.attributes.email.toLowerCase().search(data["filtrado"].toLowerCase())!=-1){
-                    coleccion.add(myModel);
-                }
+        this.filtro=$(this.el).find('#filtrado').val();
+
+        thiz.collection.fetch({ data: $.param({inicio: 0, cantidad: 5, filtro: this.filtro}),
+            success : function(collection, response) {
+                thiz.render();
             }
-        }
+        });
+      },
 
-        //Para renderizar los resultados de la busqueda
-        var tmpl = _.template(this.template);
-        this.$el.html(tmpl({
-            collection: coleccion.toJSON()
-        }));
-        return this;
-    },
+      filtrar3: function (currentPage) {
+          var data = {};
+          var thiz = this;
+          thiz.collection.fetch({ data: $.param({inicio: currentPage, cantidad: 5, filtro: this.filtro}),
+              success : function(collection, response) {
+                  thiz.render();
+              }
+          });
+        },
+
+
+      adelante: function() {
+          this.currentPage+=5;
+          this.filtrar3(this.currentPage);
+      },
+
+      atras: function() {
+        this.currentPage-=5;
+        this.filtrar3(this.currentPage);
+        },
     
     eliminarContacto: function (e) {
         e.preventDefault();
