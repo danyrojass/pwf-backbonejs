@@ -100,6 +100,26 @@ var ListaPersonaView = Backbone.View.extend({
         return this;
     },
     
+    eliminarContacto: function (e) {
+        e.preventDefault();
+        var id = $(e.currentTarget).data("id");
+        this.selectedPersona = this.collection.get(id);
+        var selec = this.collection.get(this.selectedPersona);
+        selec.destroy({
+            dataType : 'text',
+            success: function(model, response, options) {
+                window.alert("¡Contacto elimindo!");
+                window.location.reload();
+            },
+            error: function(model, response, options) {
+                window.alert("Imposible eliminar el contacto.");
+                window.location.reload();
+            }
+        });
+
+
+    },
+    
     editarContactos: function(e){
         e.preventDefault();
         var id = $(e.currentTarget).data("id");
