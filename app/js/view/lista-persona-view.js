@@ -26,6 +26,8 @@ var ListaPersonaView = Backbone.View.extend({
      */
     initialize: function () {
         var thiz = this;
+        this.currentPage = 0;
+        this.filtro="";
         //cuando el collection cambia, se carga la lista.
         this.collection.on("add", this.render, this);
         this.listenTo(this.collection, 'save', this.render);
