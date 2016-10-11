@@ -133,7 +133,7 @@ var ListaPersonaView = Backbone.View.extend({
 
     },
     
-    editarContactos: function(e){
+    editarContacto: function(e){
         e.preventDefault();
         var id = $(e.currentTarget).data("id");
         this.selectedPersona = this.collection.get(id);
